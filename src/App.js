@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    books: [
+      {
+        id: 4253879753,
+        name: "日和の書"
+      },
+      {
+        id: 5283530853,
+        name: "ドラゴンクエスト外伝"
+      },
+      {
+        id: 4567898502,
+        name: "JavaScript Good Parts"
+      }
+    ]
+  };
+
+  render() {
+    const items = this.state.books.map(d => (
+      <li>
+        {d.id} {d.name}
+      </li>
+    ));
+    return (
+      <div>
+        <ul>{items}</ul>
+      </div>
+    );
+  }
 }
 
 export default App;
