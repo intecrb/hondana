@@ -1,37 +1,26 @@
 import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 class App extends Component {
   /**
    * APIでBooksの一覧を取得する
    */
-  fetchBooks = () => {
-    return [
-      {
-        id: 4253879753,
-        name: "日和の書"
-      },
-      {
-        id: 5283530853,
-        name: "ドラゴンクエスト外伝"
-      },
-      {
-        id: 4567898502,
-        name: "JavaScript Good Parts"
-      }
-    ];
+  fetchBooks = async () => {
+    try {
+      const response = await fetch("http://localhost:3333");
+      this.setState({
+        books: await response.json()
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   componentDidMount() {
-    return fetch("http://localhost:3333")
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          books: responseJson
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    return this.fetchBooks();
   }
 
   state = {
@@ -40,13 +29,20 @@ class App extends Component {
 
   render() {
     const items = this.state.books.map(d => (
-      <li key={d.id}>
-        {d.id} {d.name}
-      </li>
+      <ListItem button key={d.id}>
+        <ListItemText primary={d.name} />
+      </ListItem>
     ));
+
     return (
       <div>
-        <ul>{items}</ul>
+        <List component="nav" aria-label="secondary mailbox folders">
+          {items}
+        </List>
+
+        <Button variant="contained" color="primary">
+          Add Item
+        </Button>
       </div>
     );
   }
